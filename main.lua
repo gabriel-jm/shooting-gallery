@@ -24,13 +24,9 @@ function love.draw()
 end
 
 function love.mousepressed(x, y, button, isTouch, presses)
-  actions = {
-    function ()
-      score = score + 1
-    end,
-    function ()
-      score = score - 1
-    end
+  local actions = {
+    function() score = score + 1 end,
+    function() score = score - 1 end
   }
 
   if actions[button] ~= nil then actions[button]() end
