@@ -14,6 +14,12 @@ function love.load()
 end
 
 function love.update(deltaTime)
+  if timer > 0 then
+    timer = timer - deltaTime
+  end
+  if timer < 0 then
+    timer = 0
+  end
 end
 
 function love.draw()
@@ -23,6 +29,7 @@ function love.draw()
   love.graphics.setFont(gameFont)
   love.graphics.setColor(1, 1, 1)
   love.graphics.print('Score: '..score, 0, 0)
+  love.graphics.print('Timer: '..math.ceil(timer), 400, 0)
 end
 
 function love.mousepressed(x, y, button, isTouch, presses)
