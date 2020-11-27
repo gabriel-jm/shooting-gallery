@@ -9,8 +9,9 @@ function love.load()
   gameState = 1
 
   target = {
-    x = 50,
-    y = 50,
+    x = love.graphics.getWidth() / 2,
+    y = 150,
+    initialRadius = 50,
     radius = 50
   }
 
@@ -26,8 +27,10 @@ function love.update(deltaTime)
     timer = timer - deltaTime
   end
   if timer < 0 then
+    love.timer.sleep(0.25)
     timer = 0
     gameState = 1
+    target.radius = target.initialRadius
   end
 end
 
@@ -38,7 +41,19 @@ function love.draw()
     love.graphics.draw(
       sprites.target,
       target.x - target.radius,
-      target.y - target.radius
+      target.y - target.radius,
+      0,
+      target.radius / target.initialRadius
+    )
+  end
+
+  if gameState == 1 then
+    love.graphics.printf(
+      'Click anywhere to begin!',
+      0,
+      250,
+      love.graphics.getWidth(),
+      'center'
     )
   end
 
@@ -50,8 +65,8 @@ function love.draw()
 
   love.graphics.setFont(gameFont)
   love.graphics.setColor(1, 1, 1)
-  love.graphics.print('Score: '..score, 0, 0)
-  love.graphics.print('Timer: '..math.ceil(timer), 400, 0)
+  love.graphics.print('Score: '..score, 5, 5)
+  love.graphics.print('Time: '..math.ceil(timer), 400, 5)
 end
 
 function love.mousepressed(x, y, button, isTouch, presses)
@@ -76,4 +91,6 @@ function love.mousepressed(x, y, button, isTouch, presses)
   target.y = math.random(
     target.radius, love.graphics.getHeight() - target.radius
   )
+  target.radius = target.radius - 1
+  timer = timer + 0.3
 end
