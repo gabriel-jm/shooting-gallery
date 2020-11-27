@@ -5,7 +5,7 @@ function love.load()
   gameFont = love.graphics.newFont(40)
 
   score = 0
-  timer = 10
+  timer = 0
   gameState = 1
 
   target = {
@@ -27,6 +27,7 @@ function love.update(deltaTime)
   end
   if timer < 0 then
     timer = 0
+    gameState = 1
   end
 end
 
@@ -56,10 +57,16 @@ end
 function love.mousepressed(x, y, button, isTouch, presses)
   local mouseDistanceToCircle = distanceBetween(x, y, target.x, target.y)
 
+  if gameState == 1 then
+    gameState = 2
+    timer = 10
+    score = 0
+  end
+
   if (
     button > 1 or
     mouseDistanceToCircle > target.radius or
-    gameState == 1
+    gameState ~= 2
   ) then return end
 
   score = score + 1
